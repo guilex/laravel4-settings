@@ -58,32 +58,26 @@ class Settings extends NamespacedItemResolver {
 		// namespaces and groups our key.
 		$collection = $this->getCollection($namespace, $group);
 
+		// check to see if we are workign with a collection (namespace::group)
 		if (isset($this->items[$collection]))
 		{
+			// check to see if we are looking for a specific item.
 			if (isset($this->items[$collection][$item]))
 			{
-				$setting = $this->items[$collection][$item];
+				// we found the item, let's return it's value.
+				return array_get($this->items[$collection], $item, $default);
 			}
 			elseif(empty($item))
 			{
-				$setting = $this->items[$collection];
-			}
-		}
-		else
-		{
-			$fromConfig = Config::get($key);
-
-			if ( ! empty($fromConfig))
-			{
-				$setting = $fromConfig;
-			}
-			else
-			{
-				$setting = $default;
+				// we are not looking for a specific item, so let's return the whole collection.
+				return array_get($this->items[$collection], $item, $default);
 			}
 		}
 
-		return $setting;
+		// okay, so we didn't find it in our settings already. So now we will
+		// check to see if it exists in the native Config settings. If it is there,
+		// we will return it. If not, then we'll get the default that we set.
+		return Config::get($key, $default);
 	}
 
 	/**
@@ -128,6 +122,14 @@ class Settings extends NamespacedItemResolver {
 
 	}
 
+	/**
+	 * Sets a value
+	 *
+	 * @param string $key   key for our setting
+	 * @param mixed $value value to set
+	 *
+	 * @return void
+	 */
 	public function set($key, $value = '')
 	{
 		// try to look up our setting to see if it already exists
@@ -156,6 +158,17 @@ class Settings extends NamespacedItemResolver {
 		$this->loadSetting($setting);
 	}
 
+	/**
+	 * Sets a temporary value in memory
+	 *
+	 * Anything set here is not persistent and is only for the current request.
+	 * This could be useful for things like setting a page title, section name, whatever.
+	 *
+	 * @param string $key    key name
+	 * @param string $value  value to save
+	 *
+	 * @return void
+	 */
 	public function setTemp($key, $value = '')
 	{
 		// parse our key, using the Illuminate NamespaceResolver
@@ -174,6 +187,12 @@ class Settings extends NamespacedItemResolver {
 		Config::set($key, $this->items[$collection][$item]);
 	}
 
+	/**
+	 * Deletes a setting from memory and the database
+	 *
+	 * @param  string $key
+	 * @return void
+	 */
 	public function forget($key)
 	{
 		// parse our key, using the Illuminate NamespaceResolver
@@ -190,6 +209,15 @@ class Settings extends NamespacedItemResolver {
 		}
 	}
 
+	/**
+	 * Loads a setting to memory
+	 *
+	 * Sets up our items array and handles setting it in the native Laravel Config
+	 *
+	 * @param  string $setting our setting object
+	 *
+	 * @return void
+	 */
 	protected function loadSetting($setting)
 	{
 		// parse our key, using the Illuminate NamespaceResolver
@@ -242,6 +270,16 @@ class Settings extends NamespacedItemResolver {
 		return $value;
 	}
 
+	/**
+	 * Detects our format and returns a properly formatted setting
+	 *
+	 * Settings can either be strings or arrays. If we have an array, we need to json_encode it
+	 * so that it will go into the database properly.
+	 *
+	 * @param  mixed  $value  value to format
+	 *
+	 * @return mixed
+	 */
 	protected static function detectSettingFormat($value)
 	{
 		if (is_array($value))
