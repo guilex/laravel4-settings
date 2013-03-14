@@ -156,6 +156,24 @@ class Settings extends NamespacedItemResolver {
 		$this->loadSetting($setting);
 	}
 
+	public function setTemp($key, $value = '')
+	{
+		// parse our key, using the Illuminate NamespaceResolver
+		list($namespace, $group, $item) = $this->parseKey($key);
+
+		// namespaces and groups our key.
+		$collection = $this->getCollection($namespace, $group);
+
+		// format our value
+		list($value, $format) = $this->detectSettingFormat($value);
+
+		// add our settings to our items array
+		$this->items[$collection][$item] = $this->formatSetting($value, $format);
+
+		// now let's set and overwrite the base laravel config if we need to
+		Config::set($key, $this->items[$collection][$item]);
+	}
+
 	public function forget($key)
 	{
 		// parse our key, using the Illuminate NamespaceResolver
