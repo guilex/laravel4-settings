@@ -55,27 +55,32 @@ class Settings extends NamespacedItemResolver {
 	 */
 	public function get($key = '', $default = '')
 	{
-		// parse our key, using the Illuminate NamespaceResolver
-		list($namespace, $group, $item) = $this->parseKey($key);
 
-		// namespaces and groups our key.
-		$collection = $this->getCollection($namespace, $group);
+		// i'm leaving this commented code in here for right now, trying to decide if I actually
+		// need it or not. Since when we set a value, we are also adding it to the Laravel default
+		// Config, we should just be able to call Config::get() to get all of our values.
 
-		// check to see if we are workign with a collection (namespace::group)
-		if (isset($this->items[$collection]))
-		{
-			// check to see if we are looking for a specific item.
-			if (isset($this->items[$collection][$item]))
-			{
-				// we found the item, let's return it's value.
-				return array_get($this->items[$collection], $item, $default);
-			}
-			elseif(empty($item))
-			{
-				// we are not looking for a specific item, so let's return the whole collection.
-				return array_get($this->items[$collection], $item, $default);
-			}
-		}
+		// // parse our key, using the Illuminate NamespaceResolver
+		// list($namespace, $group, $item) = $this->parseKey($key);
+
+		// // namespaces and groups our key.
+		// $collection = $this->getCollection($namespace, $group);
+
+		// // check to see if we are workign with a collection (namespace::group)
+		// if (isset($this->items[$collection]))
+		// {
+		// 	// check to see if we are looking for a specific item.
+		// 	if (isset($this->items[$collection][$item]))
+		// 	{
+		// 		// we found the item, let's return it's value.
+		// 		$value = array_get($this->items[$collection], $item, $default);
+		// 	}
+		// 	elseif(empty($item))
+		// 	{
+		// 		// we are not looking for a specific item, so let's return the whole collection.
+		// 		$value = array_get($this->items[$collection], $item, $default);
+		// 	}
+		// }
 
 		// okay, so we didn't find it in our settings already. So now we will
 		// check to see if it exists in the native Config settings. If it is there,
