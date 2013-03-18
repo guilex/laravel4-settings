@@ -19,6 +19,8 @@ class SettingsServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		$this->package('dberry37388/settings');
+
+		$this->app['dberry37388.settings']->load();
 	}
 
 	/**
@@ -31,6 +33,11 @@ class SettingsServiceProvider extends ServiceProvider {
 		$this->app['dberry37388.settings'] = $this->app->share(function($app)
 		{
 			return new \Dberry37388\Settings\Settings();
+		});
+
+		$this->app['dberry37388.site'] = $this->app->share(function($app)
+		{
+			return new \Dberry37388\Settings\Site($app);
 		});
 	}
 

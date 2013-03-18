@@ -26,7 +26,10 @@ class Settings extends NamespacedItemResolver {
 		// Load Our Settings
 		// This will only happen one time. Once the items are loaded they will
 		// stay in memory so we don't keep reloading them.
-		$this->load();
+		if  ($this->isLoaded === false)
+		{
+			$this->load();
+		}
 	}
 
 	/**
@@ -156,6 +159,30 @@ class Settings extends NamespacedItemResolver {
 
 		// load our saved setting info to memory
 		$this->loadSetting($setting);
+	}
+
+	/**
+	 * Sets multiple values at one time
+	 *
+	 * Example:
+	 * $attributes = array(
+	 * 	'page_tile' => 'This is My Page Title',
+	 * 	'section'   => 'Users'
+	 * );
+	 *
+	 * Settings::setMultiple($attributes);
+	 *
+	 * @param array $keys
+	 */
+	protected function setMultiple($keys = array())
+	{
+		if (is_array($keys) and ! empty($keys))
+		{
+			foreach($keys as $key=>$value)
+			{
+				$this->set($key, $value);
+			}
+		}
 	}
 
 	/**
