@@ -24,6 +24,7 @@ Open up your app/config/app.php file and add the following:
 
 // under aliases add:
 'Settings' => 'Dberry37388\Settings\Facades\SettingsFacade',
+```
 
 Now open up the command line and run:
 
