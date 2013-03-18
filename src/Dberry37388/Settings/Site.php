@@ -1,5 +1,7 @@
 <?php namespace Dberry37388\Settings;
 
+use Config;
+
 class Site {
 
 	/**
@@ -9,11 +11,21 @@ class Site {
 	 */
 	protected $namespace = 'site';
 
+	/**
+	 * Holds our registered custom macros
+	 *
+	 * @var array
+	 */
+	public $macros = array();
+
+
 	public function __construct($app)
 	{
 		// if we have a custom configured namespace, then use that. If not default to our
 		// hard-coded namespace of site
-		static::$namespace = Config::get('settings::config.namespace', static::$namespace);
+		$this->namespace = Config::get('settings::site.namespace', $this->namespace);
+
+		$this->settings = $app['dberry37388.settings'];
 	}
 
 	/**
@@ -30,7 +42,7 @@ class Site {
 			return;
 		}
 
-		return Config::get("site::{$key}", $default);
+		return $this->settings->get("{$this->namespace}::{$key}", $default);
 	}
 
 	/**
@@ -48,7 +60,7 @@ class Site {
 			return;
 		}
 
-		Config::set("site::{$key}", $value);
+		$this->settings->setTemp("{$this->namespace}::{$key}", $value);
 	}
 
 	/**
@@ -60,7 +72,7 @@ class Site {
 	 * 	'section'   => 'Users'
 	 * );
 	 *
-	 * Site::setMultiple($attributes);
+	 * {$this->namespace}::setMultiple($attributes);
 	 *
 	 * @param array $keys
 	 */
@@ -73,6 +85,20 @@ class Site {
 				$this->set($key, $value);
 			}
 		}
+	}
+
+	/**
+	 * Registers a custom macro.
+	 *
+	 * @param  string   $name
+	 * @param  Closure  $macro
+	 * @return void
+	 */
+	public function macro($name, $macro)
+	{
+		$this->macros[$name] = $macro;
+
+		// dd($this->macros, true);
 	}
 
 	/**
@@ -109,42 +135,19 @@ class Site {
 	}
 
 	/**
-	 * Sets the current section
+	 * Dynamically handle calls to custom macros.
 	 *
-	 * @param string $value
+	 * @param  string  $method
+	 * @param  array   $parameters
+	 * @return mixed
 	 */
-	public function setPageTitle($value = '')
+	public function __call($method, $parameters)
 	{
-		$this->set('page_title', $value);
-	}
+	    if (isset($this->macros[$method]))
+	    {
+	        return call_user_func_array($this->macros[$method], $parameters);
+	    }
 
-	/**
-	 * Gets the current section
-	 *
-	 * @return string
-	 */
-	public function getPageTitle()
-	{
-		return $this->get('page_title');
-	}
-
-	/**
-	 * Sets the current section
-	 *
-	 * @param string $value
-	 */
-	public function setSection($value = '')
-	{
-		$this->set('section', $value);
-	}
-
-	/**
-	 * Gets the current section
-	 *
-	 * @return string
-	 */
-	public function getSection()
-	{
-		return $this->get('section');
+	    throw new \Exception("FUCK YOU!!! Method [$method] does not exist.");
 	}
 }
