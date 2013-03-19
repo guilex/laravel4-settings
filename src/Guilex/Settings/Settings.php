@@ -1,7 +1,7 @@
-<?php namespace Dberry37388\Settings;
+<?php namespace Guilex\Settings;
 
 use Illuminate\Support\NamespacedItemResolver;
-use Dberry37388\Settings\Models\SettingsModel;
+use Guilex\Settings\Models\SettingsModel;
 use Config;
 
 class Settings extends NamespacedItemResolver {

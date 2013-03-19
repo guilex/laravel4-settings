@@ -1,4 +1,4 @@
-<?php namespace Dberry37388\Settings\Models;
+<?php namespace Guilex\Settings\Models;
 
 use Eloquent;
 
@@ -9,6 +9,6 @@ class SettingsModel extends Eloquent {
 	 *
 	 * @var string
 	 */
-	protected $table = 'dberry37388_settings';
+	protected $table = 'settings';
 
 }

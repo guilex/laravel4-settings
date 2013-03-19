@@ -1,4 +1,4 @@
-<?php namespace Dberry37388\Settings\Facades;
+<?php namespace Guilex\Settings\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
@@ -9,6 +9,6 @@ class SettingsFacade extends Facade {
 	 *
 	 * @return string
 	 */
-	protected static function getFacadeAccessor() { return 'dberry37388.settings'; }
+	protected static function getFacadeAccessor() { return 'guilex.settings'; }
 
 }

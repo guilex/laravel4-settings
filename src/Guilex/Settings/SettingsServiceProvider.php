@@ -1,4 +1,4 @@
-<?php namespace Dberry37388\Settings;
+<?php namespace Guilex\Settings;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -18,9 +18,9 @@ class SettingsServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('dberry37388/settings');
+		$this->package('guilex/settings');
 
-		$this->app['dberry37388.settings']->load();
+		$this->app['guilex.settings']->load();
 	}
 
 	/**
@@ -30,14 +30,14 @@ class SettingsServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app['dberry37388.settings'] = $this->app->share(function($app)
+		$this->app['guilex.settings'] = $this->app->share(function($app)
 		{
-			return new \Dberry37388\Settings\Settings();
+			return new \Guilex\Settings\Settings();
 		});
 
-		$this->app['dberry37388.site'] = $this->app->share(function($app)
+		$this->app['guilex.site'] = $this->app->share(function($app)
 		{
-			return new \Dberry37388\Settings\Site($app);
+			return new \Guilex\Settings\Site($app);
 		});
 	}
 

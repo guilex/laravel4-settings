@@ -11,7 +11,7 @@ class CreateSettingsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('dberry37388_settings', function($table)
+		Schema::create('settings', function($table)
 		{
 			$table->increments('id');
 			$table->timestamps();
@@ -28,7 +28,7 @@ class CreateSettingsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::dropIfExsits('dberry37388_settings');
+		Schema::dropIfExsits('settings');
 	}
 
 }
