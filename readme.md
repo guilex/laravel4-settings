@@ -13,23 +13,23 @@ already out there, so this isn't really anything special and it is pretty specif
 Start by adding the following line to your composer.php
 
 ```
-'dberry37388/settings' => 'dev-master'
+'guilex/settings' => 'dev-master'
 ```
 
 Open up your app/config/app.php file and add the following:
 
 ```
 // under service providers add:
-'Dberry37388\Settings\SettingsServiceProvider'
+'Guilex\Settings\SettingsServiceProvider'
 
 // under aliases add:
-'Settings' => 'Dberry37388\Settings\Facades\SettingsFacade',
+'Settings' => 'Guilex\Settings\Facades\SettingsFacade',
 ```
 
 Now open up the command line and run:
 
 ```
-php artisan migrate --package=dberry37388/settings
+php artisan migrate --package=guilex/settings
 ```
 
 Now we're cooking with peanut oil... You should be all installed and ready to go.
@@ -131,7 +131,7 @@ is included for you:
 
 ```
 /**
- * Gets our Page TItle
+ * Gets our Page Title
  * Will use the Site::get() to pull our page title from the config
  */
 Site::macro('getPageTitle', function() {

@@ -1,4 +1,4 @@
-<?php namespace Dberry37388\Settings;
+<?php namespace Guilex\Settings;
 
 use Config;
 
@@ -25,7 +25,7 @@ class Site {
 		// hard-coded namespace of site
 		$this->namespace = Config::get('settings::site.namespace', $this->namespace);
 
-		$this->settings = $app['dberry37388.settings'];
+		$this->settings = $app['guilex.settings'];
 	}
 
 	/**

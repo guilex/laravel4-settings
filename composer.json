@@ -1,10 +1,14 @@
 {
-    "name": "dberry37388/settings",
+    "name": "guilex/settings",
     "description": "",
     "authors": [
         {
             "name": "Daniel Berry",
             "email": "daniel@danielberry.me"
+        },
+        {
+            "name": "Dragan Stefanov",
+            "email": "dragan.stefanov@gmail.com"
         }
     ],
     "require": {
@@ -16,7 +20,7 @@
             "src/migrations"
         ],
         "psr-0": {
-            "Dberry37388\\Settings": "src/"
+            "Guilex\\Settings": "src/"
         }
     },
     "minimum-stability": "dev"
